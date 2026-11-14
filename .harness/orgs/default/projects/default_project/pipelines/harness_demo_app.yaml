@@ -1,4 +1,8 @@
 pipeline:
+  clone:
+    enabled: true
+    repo: harness-demo-app
+    depth: 1
   stages:
     - name: Build e Teste
       id: build_and_test
