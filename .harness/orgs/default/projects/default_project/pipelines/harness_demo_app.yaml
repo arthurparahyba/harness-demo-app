@@ -1,0 +1,17 @@
+pipeline:
+  stages:
+    - name: Build e Teste
+      id: build_and_test
+      steps:
+        - name: Instalar dependencias
+          id: install
+          run:
+            shell: sh
+            script: |
+              node -v
+              npm ci
+        - name: Rodar testes
+          id: test
+          run:
+            shell: sh
+            script: npm run test:ci
