@@ -6,11 +6,19 @@
   "scripts": {
     "start": "node src/server.js",
     "test": "jest --coverage",
-    "test:ci": "jest --ci --reporters=default --reporters=jest-junit"
+    "test:ci": "jest --ci --coverage --reporters=default --reporters=jest-junit"
   },
   "jest": {
     "testEnvironment": "node",
-    "coverageDirectory": "coverage"
+    "coverageDirectory": "coverage",
+    "coverageThreshold": {
+      "global": {
+        "lines": 90,
+        "branches": 85,
+        "functions": 90,
+        "statements": 90
+      }
+    }
   },
   "jest-junit": {
     "outputDirectory": "reports",

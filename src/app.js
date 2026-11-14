@@ -1,4 +1,5 @@
 const express = require('express');
+const stats = require('./stats');
 
 const app = express();
 app.use(express.json());
@@ -21,6 +22,18 @@ app.get('/version', (req, res) => {
 
 app.get('/tasks', (req, res) => {
   res.json(tasks);
+});
+
+app.get('/tasks/stats', (req, res) => {
+  res.json({ ...stats.summarize(tasks), longestTitle: stats.longestTitle(tasks) });
+});
+
+app.get('/tasks/search', (req, res) => {
+  try {
+    res.json(stats.search(tasks, req.query.q));
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 });
 
 app.post('/tasks', (req, res) => {
