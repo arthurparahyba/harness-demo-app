@@ -1,0 +1,6 @@
+name: harness-demo-app
+replicas: 2
+# Preenchido pelo Harness CD com o artefato escolhido na execução
+image: <+artifacts.primary.image>
+version: <+artifacts.primary.tag>
+serviceType: ClusterIP
