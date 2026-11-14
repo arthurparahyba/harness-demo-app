@@ -1,7 +1,7 @@
 pipeline:
   clone:
     enabled: true
-    repo: harness-demo-app
+    repo: arthurparahyba/harness-demo-app
     depth: 1
   stages:
     - name: Build e Teste
