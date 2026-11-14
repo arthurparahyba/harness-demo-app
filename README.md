@@ -41,6 +41,12 @@ k8s/              manifestos Kubernetes para o Harness CD
 
 ## Configurando no Harness
 
+> **Harness 3.0 (YAML v1):** use `.harness/pipeline.yaml`. Se o assistente
+> *Create a build pipeline* falhar com `stages[0].steps: is missing`, crie o pipeline
+> pelo editor YAML (ou *Import from Git*) com esse arquivo em vez do template gerado.
+> Contas no formato antigo (Harness NG / YAML v0) usam `.harness/pipeline-v0.yaml`,
+> e o passo a passo abaixo se refere a ele.
+
 1. **Connector do GitHub** – em *Project Settings › Connectors*, crie um connector GitHub
    com identificador `github_connector` (ou ajuste `connectorRef` no pipeline).
 2. **Importar o pipeline** – em *Pipelines › Create › Import from Git*, aponte para

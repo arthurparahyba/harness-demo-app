@@ -1,75 +1,23 @@
+# Pipeline no formato Harness 3.0 (YAML v1)
 pipeline:
+  id: harness_demo_app
   name: harness-demo-app
-  identifier: harness_demo_app
-  # Ajuste para o seu projeto/organização no Harness
-  projectIdentifier: default_project
-  orgIdentifier: default
-  tags: {}
-  properties:
-    ci:
-      codebase:
-        # Connector do GitHub criado em Project Settings > Connectors
-        connectorRef: github_connector
-        repoName: harness-demo-app
-        build: <+input>
-  variables:
-    - name: push_image
-      type: String
-      description: "true para gerar e publicar a imagem Docker"
-      value: "false"
-    - name: docker_repo
-      type: String
-      description: "Repositório da imagem, ex.: seuusuario/harness-demo-app"
-      value: seuusuario/harness-demo-app
+  clone:
+    enabled: true
+    depth: 1
   stages:
-    - stage:
-        name: Build e Teste
-        identifier: build_and_test
-        type: CI
-        spec:
-          cloneCodebase: true
-          caching:
-            enabled: true
-          platform:
-            os: Linux
-            arch: Amd64
-          runtime:
-            type: Cloud
-            spec: {}
-          execution:
-            steps:
-              - step:
-                  type: Run
-                  name: Instalar dependencias
-                  identifier: install
-                  spec:
-                    shell: Sh
-                    command: |
-                      node -v
-                      npm ci
-              - step:
-                  type: Run
-                  name: Rodar testes
-                  identifier: test
-                  spec:
-                    shell: Sh
-                    command: npm run test:ci
-                    reports:
-                      type: JUnit
-                      spec:
-                        paths:
-                          - reports/junit.xml
-              - step:
-                  type: BuildAndPushDockerRegistry
-                  name: Build e Push da imagem
-                  identifier: build_push
-                  when:
-                    stageStatus: Success
-                    condition: <+pipeline.variables.push_image> == "true"
-                  spec:
-                    # Connector do Docker Hub (ou outro registry)
-                    connectorRef: dockerhub_connector
-                    repo: <+pipeline.variables.docker_repo>
-                    tags:
-                      - <+pipeline.sequenceId>
-                      - latest
+    - name: Build e Teste
+      id: build_and_test
+      steps:
+        - name: Instalar dependencias
+          id: install
+          run:
+            shell: sh
+            script: |
+              node -v
+              npm ci
+        - name: Rodar testes
+          id: test
+          run:
+            shell: sh
+            script: npm run test:ci
